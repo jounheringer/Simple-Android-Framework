@@ -17,19 +17,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.reringuy.aidl.ITemperatureService
 import com.reringuy.embeddedandroidsim.ui.theme.EmbeddedAndroidSimTheme
 
 class MainActivity : ComponentActivity() {
-    private var service: ITemperatureService? = null
+    private var service: ITemperatureInterface? = null
+
 
     private val connection = object : ServiceConnection {
 
         override fun onServiceConnected(name: ComponentName?, binder: IBinder?) {
-            service = ITemperatureService.Stub.asInterface(binder)
+            service = ITemperatureInterface.Stub.asInterface(binder)
 
-            val temp = service?.getTemperature()
-            Log.d("CLIENT", "Temperatura: $temp")
+            Log.d("CLIENT", "Temperature: ${service?.temperature()}")
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
@@ -39,12 +38,8 @@ class MainActivity : ComponentActivity() {
 
     override fun onStart() {
         super.onStart()
-        val intent = Intent()
-
-        intent.setClassName(
-            "com.reringuy.framework_service",
-            "com.reringuy.framework_service.TemperatureService"
-        )
+        val intent = Intent("com.reringuy.embeddedandroidsim.TemperatureService")
+        intent.setPackage("com.reringuy.embeddedandroidsim")
 
         bindService(intent, connection, BIND_AUTO_CREATE)
     }

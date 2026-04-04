@@ -24,5 +24,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "EmbeddedAndroidSim"
 include(":app")
-include(":framework-service")
-include(":common-aidl")

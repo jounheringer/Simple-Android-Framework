@@ -5,12 +5,6 @@
     <uses-feature
         android:name="android.hardware.type.automotive"
         android:required="true" />
-    <queries>
-        <package android:name="com.reringuy.framework_service"/>
-        <intent>
-            <action android:name="com.reringuy.framework_service.TemperatureService" />
-        </intent>
-    </queries>
 
     <application
         android:allowBackup="true"
@@ -21,6 +15,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.EmbeddedAndroidSim">
+
+        <service
+            android:name=".TemperatureService"
+            android:enabled="true"
+            android:exported="true"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="com.reringuy.embeddedandroidsim.TemperatureService" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
